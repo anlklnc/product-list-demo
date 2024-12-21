@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.anil.productlistdemo.R
 import com.anil.productlistdemo.databinding.FragmentProductDetailBinding
 import com.anil.productlistdemo.model.Product
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val ARG_PRODUCT_ID = "product_id"
@@ -34,7 +36,6 @@ class ProductDetailFragment : Fragment() {
         binding = FragmentProductDetailBinding.inflate(inflater, container, false)
 
         viewModel.productDetail.observe(viewLifecycleOwner) {
-            // Update UI
             showProduct(it)
         }
 
@@ -42,8 +43,15 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun showProduct(productDetail: Product) {
-        // Show product detail
         binding.title.text = productDetail.title
+        binding.description.text = productDetail.description
+        binding.price.text = "${productDetail.price} $"
+        binding.category.text = productDetail.category
+        Glide.with(requireContext())
+            .load(productDetail.image)
+            .fitCenter()
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .into(binding.image)
     }
 
     companion object {

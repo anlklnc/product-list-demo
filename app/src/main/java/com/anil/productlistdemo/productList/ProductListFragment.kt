@@ -24,7 +24,9 @@ class ProductListFragment : Fragment() {
         viewModel.init()
 
         viewModel.pagerList.observe(viewLifecycleOwner) {
-            binding.pager.adapter = PagerAdapter(requireContext(), it)
+            binding.pager.adapter = PagerAdapter(requireContext(), it) { id ->
+                openProductDetailsPage(id)
+            }
             binding.indicator.attachTo(binding.pager)
         }
 
